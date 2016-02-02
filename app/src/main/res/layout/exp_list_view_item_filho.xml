@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dumbbell_black_18dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/item_filho"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="Item principal"
+            android:textSize="15dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/item_filho_detalhe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/item_filho_detalhe_num_series"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Series: 3" />
+
+        <TextView
+            android:id="@+id/item_filho_detalhe_num_repeticoes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Repetições: 25/25/25"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/item_filho_detalhe_num_series"
+            android:layout_toEndOf="@+id/item_filho_detalhe_num_series" />
+
+        <TextView
+            android:id="@+id/item_filho_detalhe_intervalo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Intervalo: 30seg"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/item_filho_detalhe_num_repeticoes"
+            android:layout_toEndOf="@+id/item_filho_detalhe_num_repeticoes" />
+
+        <TextView
+            android:id="@+id/item_filho_detalhe_comentario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Comentário:\nTeste de comentário... apenas para ver como fica no layout. Ficou bacana!!!"
+            android:layout_below="@+id/item_filho_detalhe_num_series"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

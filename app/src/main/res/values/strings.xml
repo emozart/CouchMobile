@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Couch Mobile</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_rotina_semanal">Rotina Semanal</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string-array name="dias_da_semana">
+        <item name="segunda">Segunda-feira</item>
+        <item name="terca">Terça-feira</item>
+        <item name="quarta">Quarta-feira</item>
+        <item name="quinta">Quinta-feira</item>
+        <item name="sexta">Sexta-feira</item>
+        <item name="sabado">Sábado</item>
+        <item name="domingo">Domingo</item>
+    </string-array>
+    <string name="title_activity_you_tube">Vídeo</string>
+</resources>
