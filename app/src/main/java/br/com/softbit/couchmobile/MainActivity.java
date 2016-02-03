@@ -14,7 +14,8 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements PerfilPessoalFragment.OnFragmentInteractionListener,TreinosFragment.OnFragmentInteractionListener,
         AlimentacaoFragment.OnFragmentInteractionListener, BuscarProfissionalFragment.OnFragmentInteractionListener,
-        SobreFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+        PlayerTreinoFragment.OnFragmentInteractionListener, SobreFragment.OnFragmentInteractionListener,
+        NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        PerfilPessoalFragment fragment = PerfilPessoalFragment.newInstance("","");
+        PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
         android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
         fragmentTransaction.addToBackStack(null);
@@ -125,6 +126,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
 
     }
 }

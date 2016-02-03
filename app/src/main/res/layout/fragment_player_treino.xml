@@ -57,6 +57,12 @@
                 continuando o texto só para testar o scroll da tela"
                 android:textSize="20sp"/>
 
+            <Button
+                android:id="@+id/btnYoutubePlayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vídeo de demonstração"/>
+
         </LinearLayout>
 
     </ScrollView>
