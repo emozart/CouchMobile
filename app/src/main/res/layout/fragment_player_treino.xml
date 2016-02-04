@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,9 +6,12 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/player_buttons"
+        android:padding="10dp">
 
         <LinearLayout
+            android:id="@+id/player_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -17,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Nome do Treino"
-                android:textSize="50sp"/>
+                android:textSize="50sp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -53,8 +56,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Texto de exemplo de comentário. Apenas para ilustração do campo na tela
-                continuando o texto só para testar o scroll da tela"
+                android:text="Texto de exemplo de comentário. Apenas para ilustração do campo na tela continuando o texto só para testar o scroll da tela"
                 android:textSize="20sp"/>
 
             <Button
@@ -68,11 +70,12 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/player_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@android:color/white"
-        android:layout_gravity="bottom">
+        android:layout_alignParentBottom="true">
 
         <ImageView
             android:layout_width="0dp"
@@ -100,4 +103,6 @@
 
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
+
+
