@@ -1,5 +1,8 @@
 package br.com.softbit.couchmobile;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements PerfilPessoalFragment.OnFragmentInteractionListener,TreinosFragment.OnFragmentInteractionListener,
@@ -43,6 +47,14 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
 
+        if (isOnLine()){
+            requestData();
+        }else{
+            Toast.makeText(this, "Internet não disponível para sincronização de dados", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void requestData() {
         MyTask task = new MyTask();
         task.execute("parametro 1", "parametro 2", "parametro 3");
     }
@@ -135,6 +147,16 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
 
+    }
+
+    protected boolean isOnLine(){
+        ConnectivityManager conectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = conectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private class MyTask extends AsyncTask<String, String, String> {
