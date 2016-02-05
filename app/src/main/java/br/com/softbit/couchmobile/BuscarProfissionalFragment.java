@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -64,7 +65,12 @@ public class BuscarProfissionalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_buscar_profissional, container, false);
+        View view = inflater.inflate(R.layout.fragment_buscar_profissional, container, false);
+
+        TextView mensagemTeste = (TextView) view.findViewById(R.id.texto_teste);
+        mensagemTeste.setText(mParam1);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -1,6 +1,7 @@
 package br.com.softbit.couchmobile;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +18,8 @@ public class MainActivity extends AppCompatActivity
         AlimentacaoFragment.OnFragmentInteractionListener, BuscarProfissionalFragment.OnFragmentInteractionListener,
         PlayerTreinoFragment.OnFragmentInteractionListener, SobreFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
+
+    private String fragmentMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,9 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
+        MyTask task = new MyTask();
+        task.execute("parametro 1", "parametro 2", "parametro 3");
     }
 
     @Override
@@ -98,7 +105,7 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_buscar_profissional) {
-            BuscarProfissionalFragment fragment = BuscarProfissionalFragment.newInstance(null,null); //new BuscarProfissionalFragment();
+            BuscarProfissionalFragment fragment = BuscarProfissionalFragment.newInstance(fragmentMessage,null); //new BuscarProfissionalFragment();
             android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
@@ -128,5 +135,24 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
 
+    }
+
+    private class MyTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            Log.i("AsyncTask", "Executado antes da tarefa");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return "A tarefa foi executada.";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.i("AsyncTask", result);
+            fragmentMessage = result;
+        }
     }
 }

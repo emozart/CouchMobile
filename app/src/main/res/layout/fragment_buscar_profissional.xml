@@ -4,6 +4,7 @@
     tools:context="br.com.softbit.couchmobile.BuscarProfissionalFragment">
 
     <TextView
+        android:id="@+id/texto_teste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fragment Buscar Profissional"
