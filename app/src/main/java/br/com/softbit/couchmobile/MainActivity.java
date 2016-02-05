@@ -15,6 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -24,11 +27,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener {
 
     private String fragmentMessage;
+    private TextView messageLog;
+    private ProgressBar loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,11 +47,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
-        android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        messageLog = (TextView) findViewById(R.id.message_logger);
+        loading = (ProgressBar) findViewById(R.id.loading);
+        loading.setVisibility(View.INVISIBLE);
 
         if (isOnLine()){
             requestData();
@@ -159,22 +163,49 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void updateLog(String message) {
+        messageLog.setText(messageLog.getText() + "\n" + message);
+    }
+
     private class MyTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
-            Log.i("AsyncTask", "Executado antes da tarefa");
+            loading.setVisibility(View.VISIBLE);
+            fragmentMessage = "Executando rotina antes da tarefa.";
+            updateLog(fragmentMessage);
         }
 
         @Override
         protected String doInBackground(String... params) {
+            for (int i=0; i < params.length; i++){
+                publishProgress("Trabalhando no " + params[i]);
+                try {
+                    Thread.sleep(1500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             return "A tarefa foi executada.";
         }
 
         @Override
         protected void onPostExecute(String result) {
-            Log.i("AsyncTask", result);
-            fragmentMessage = result;
+            loading.setVisibility(View.INVISIBLE);
+            fragmentMessage += result;
+            updateLog(result);
+
+            PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
+            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            fragmentMessage += values[0];
+            updateLog(values[0]);
         }
     }
 }
