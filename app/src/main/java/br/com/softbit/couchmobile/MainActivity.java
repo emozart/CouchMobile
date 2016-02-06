@@ -55,15 +55,15 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         if (isOnLine()){
-            requestData();
+            requestData("http://services.hanselandpetal.com/feeds/flowers.xml");
         }else{
             Toast.makeText(this, "Internet não disponível para sincronização de dados", Toast.LENGTH_LONG).show();
         }
     }
 
-    private void requestData() {
+    private void requestData(String uri) {
         MyTask task = new MyTask();
-        task.execute("parametro 1", "parametro 2", "parametro 3");
+        task.execute(uri);
     }
 
     @Override
@@ -179,19 +179,14 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected String doInBackground(String... params) {
-            for (int i=0; i < params.length; i++){
-                publishProgress("Trabalhando no " + params[i]);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            return "A tarefa foi executada.";
+            Log.i("update", "Executando a tarefa.");
+            String content = HttpManager.getData(params[0]);
+            return content;
         }
 
         @Override
         protected void onPostExecute(String result) {
+            Log.i("update", result);
             Log.i("update", "Tarefa finalizada.");
 
             PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
