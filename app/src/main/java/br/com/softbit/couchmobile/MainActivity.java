@@ -1,5 +1,6 @@
 package br.com.softbit.couchmobile;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,10 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
-        implements PerfilPessoalFragment.OnFragmentInteractionListener,TreinosFragment.OnFragmentInteractionListener,
+        implements LoadFragment.OnFragmentInteractionListener, PerfilPessoalFragment.OnFragmentInteractionListener,
         AlimentacaoFragment.OnFragmentInteractionListener, BuscarProfissionalFragment.OnFragmentInteractionListener,
         PlayerTreinoFragment.OnFragmentInteractionListener, SobreFragment.OnFragmentInteractionListener,
-        NavigationView.OnNavigationItemSelectedListener {
+        TreinosFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
 
     private String fragmentMessage;
     private TextView messageLog;
@@ -47,9 +48,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        messageLog = (TextView) findViewById(R.id.message_logger);
-        loading = (ProgressBar) findViewById(R.id.loading);
-        loading.setVisibility(View.INVISIBLE);
+        LoadFragment fragment = LoadFragment.newInstance(null,null);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.fragment_conteiner, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
 
         if (isOnLine()){
             requestData();
@@ -103,38 +106,38 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_perfil) {
-            PerfilPessoalFragment fragment =  PerfilPessoalFragment.newInstance(null,null); //new PerfilPessoalFragment();
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            PerfilPessoalFragment fragment =  PerfilPessoalFragment.newInstance(null,null);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_treinos) {
-            TreinosFragment fragment = TreinosFragment.newInstance(null,null); //new TreinosFragment();
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            TreinosFragment fragment = TreinosFragment.newInstance(null,null);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_alimentacao) {
-            AlimentacaoFragment fragment = AlimentacaoFragment.newInstance(null,null); //new AlimentacaoFragment();
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            AlimentacaoFragment fragment = AlimentacaoFragment.newInstance(null,null);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_buscar_profissional) {
-            BuscarProfissionalFragment fragment = BuscarProfissionalFragment.newInstance(fragmentMessage,null); //new BuscarProfissionalFragment();
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            BuscarProfissionalFragment fragment = BuscarProfissionalFragment.newInstance(fragmentMessage,null);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_player_de_treino) {
-            PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null); //new PlayerTreinoFragment();
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         } else if (id == R.id.nav_sobre) {
-            SobreFragment fragment = SobreFragment.newInstance(null,null); //new SobreFragment();
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            SobreFragment fragment = SobreFragment.newInstance(null,null);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -150,7 +153,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-
     }
 
     protected boolean isOnLine(){
@@ -163,17 +165,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void updateLog(String message) {
-        messageLog.setText(messageLog.getText() + "\n" + message);
-    }
-
     private class MyTask extends AsyncTask<String, String, String> {
 
         @Override
         protected void onPreExecute() {
-            loading.setVisibility(View.VISIBLE);
-            fragmentMessage = "Executando rotina antes da tarefa.";
-            updateLog(fragmentMessage);
+            Log.i("update", "Executado antes da tarefa.");
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity
             for (int i=0; i < params.length; i++){
                 publishProgress("Trabalhando no " + params[i]);
                 try {
-                    Thread.sleep(1500);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -191,12 +192,10 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String result) {
-            loading.setVisibility(View.INVISIBLE);
-            fragmentMessage += result;
-            updateLog(result);
+            Log.i("update", "Tarefa finalizada.");
 
             PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
-            android.app.FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.fragment_conteiner, fragment);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
@@ -204,8 +203,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onProgressUpdate(String... values) {
-            fragmentMessage += values[0];
-            updateLog(values[0]);
+            Log.i("update", values[0]);
         }
     }
 }

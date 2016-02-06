@@ -10,18 +10,4 @@
     tools:context=".MainActivity"
     android:id="@+id/fragment_conteiner">
 
-    <TextView
-        android:id="@+id/message_logger"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Message log:"/>
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-
 </RelativeLayout>
