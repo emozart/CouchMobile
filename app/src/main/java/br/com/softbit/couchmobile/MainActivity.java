@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         if (isOnLine()){
-            requestData("http://services.hanselandpetal.com/feeds/flowers.json");
+            //requestData("http://services.hanselandpetal.com/feeds/flowers.json");
+            requestData("http://services.hanselandpetal.com/secure/flowers.json");
         }else{
             Toast.makeText(this, "Internet não disponível para sincronização de dados", Toast.LENGTH_LONG).show();
         }
@@ -187,7 +188,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected String doInBackground(String... params) {
             Log.i("update", "Executando a tarefa.");
-            String content = HttpManager.getData(params[0]);
+            String content = HttpManager.getData(params[0], "feeduser", "feedpassword");
             return content;
         }
 
