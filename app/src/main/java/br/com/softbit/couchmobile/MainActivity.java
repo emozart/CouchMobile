@@ -21,6 +21,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.softbit.couchmobile.modelo.Flower;
+import br.com.softbit.couchmobile.parsers.ProfissionalJSONParser;
+
 public class MainActivity extends AppCompatActivity
         implements LoadFragment.OnFragmentInteractionListener, PerfilPessoalFragment.OnFragmentInteractionListener,
         AlimentacaoFragment.OnFragmentInteractionListener, BuscarProfissionalFragment.OnFragmentInteractionListener,
@@ -30,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private String fragmentMessage;
     private TextView messageLog;
     private ProgressBar loading;
+    private List<Flower> flowerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         if (isOnLine()){
-            requestData("http://services.hanselandpetal.com/feeds/flowers.xml");
+            requestData("http://services.hanselandpetal.com/feeds/flowers.json");
         }else{
             Toast.makeText(this, "Internet não disponível para sincronização de dados", Toast.LENGTH_LONG).show();
         }
@@ -186,7 +193,13 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPostExecute(String result) {
-            Log.i("update", result);
+
+            //flowerList = new ArrayList<Flower>();
+            flowerList = ProfissionalJSONParser.parseFeed(result);
+
+            for(int i = 0; i < flowerList.size(); i++) {
+                Log.i("update", flowerList.get(i).getName());
+            }
             Log.i("update", "Tarefa finalizada.");
 
             PlayerTreinoFragment fragment = PlayerTreinoFragment.newInstance(null,null);
